@@ -98,7 +98,19 @@ public static class EmberMeshes
             // moss and vines trailing from the branch (always at least one on the first branch)
             int strands = i == 0 ? r.Next(1, 4) : r.NextDouble() < 0.6 ? r.Next(1, 4) : 0;
             for (int s = 0; s < strands; s++)
-                Hang(b, r, Vector3.Lerp(bs[1], tip, R(r, 0f, 1f)), R(r, 1.8f, 5.5f));
+                Hang(b, r, Vector3.Lerp(bs[1], tip, R(r, 0f, 1f)), R(r, 3.5f, 9f));
+        }
+        // low bare limbs draped with long moss, so strands reach down to just above head height
+        int limbs = r.Next(2, 4);
+        for (int i = 0; i < limbs; i++)
+        {
+            float ang = R(r, 0f, Mathf.PI * 2f);
+            Vector3 dir = new Vector3(Mathf.Cos(ang), R(r, 0.05f, 0.35f), Mathf.Sin(ang)).normalized;
+            var ls = new List<Vector3>();
+            Vector3 tip = Tube(b, r, spine[r.Next(3, 5)], dir, height * R(r, 0.14f, 0.26f), radius * 0.3f, 0.03f, 4, 4, 0.25f, 0f, ls);
+            int strands = r.Next(2, 5);
+            for (int s = 0; s < strands; s++)
+                Hang(b, r, Vector3.Lerp(ls[1], tip, R(r, 0f, 1f)), R(r, 4f, 10f));
         }
         return Finish(b, $"EmberTree_{seed}");
     }
@@ -106,6 +118,8 @@ public static class EmberMeshes
     // Two crossed cards hanging straight down from p. Atlas: left half vine, right half moss strands.
     static void Hang(Buf b, System.Random r, Vector3 p, float len)
     {
+        len = Mathf.Min(len, p.y - 1.6f);   // never down to the ground
+        if (len < 1f) return;
         float u0 = r.NextDouble() < 0.4 ? 0f : 0.5f, yaw = R(r, 0f, 180f);
         for (int c = 0; c < 2; c++)
         {
@@ -118,22 +132,6 @@ public static class EmberMeshes
     }
 
     static Vector3 Random3(System.Random r) => new Vector3(R(r, -1, 1), R(r, -0.6f, 0.8f), R(r, -1, 1));
-
-    // 3 crossed leaf cards standing on the ground (bush / fern).
-    public static Mesh Bush()
-    {
-        var b = new Buf();
-        for (int i = 0; i < 3; i++)
-        {
-            Quaternion q = Quaternion.Euler(0f, i * 60f + 10f, 0f);
-            Vector3 x = q * Vector3.right * 0.9f, lean = q * Vector3.forward * 0.25f;
-            int k = b.v.Count;
-            b.v.AddRange(new[] { -x, x, -x + Vector3.up * 1.5f + lean, x + Vector3.up * 1.5f + lean });
-            b.uv.AddRange(new[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(1, 1) });
-            b.leaf.AddRange(new[] { k, k + 2, k + 1, k + 1, k + 2, k + 3 });
-        }
-        return Finish(b, "EmberBush");
-    }
 
     // Faceted glowing bulb (mushroom cap / spore pod), origin at ground.
     public static Mesh Bulb()
