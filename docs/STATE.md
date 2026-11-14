@@ -51,12 +51,23 @@ audio, UI.
 - Old Soulslike plan (`guide.txt`) was dropped on 2026-11-14.
 
 ## Next
-1. Next visual passes asked for by the user (2026-11-14): extend the forest (suggested 360 x 360 m
-   with a boundary), a landmark. Hanging moss is done. Then further polish as the user steers. Known rough spots: large bushes read as dark silhouettes,
-   rock texture is soft (a `--tile` Midjourney rock would be better), trees are still procedural placeholders,
-   unused sprites (tall herb stalks, bare twig, leafy branch). User is happy with ground lighting.
-2. Walk test in Play mode (never verified, incl. rock colliders and frame rate).
-3. Weapon viewmodel in Emberwood, then a grey-box combat test with a dummy enemy.
+1. **Enlarge the forest** (agreed direction, not started): 180 x 180 m -> about 360 x 360 m, with a world-edge
+   boundary (hill ring or dense tree wall) and possibly a forking path. Terrain resolution, tree/rock/flower
+   counts and the lake position all scale with `EmberTerrain.Half`.
+2. **A landmark** to walk towards (what it is: open question for the user).
+3. **Unverified, check first next session:**
+   - Play mode: walking, wading in the lake, rock colliders, frame rate with ~140 point lights
+     (mushroom clusters + flower patches).
+   - Lake outline from above, the island (an ordinary tree may have spawned on it), the shore tree up close.
+   - A mushroom up close (only seen from the spawn view).
+4. **Known rough spots:** large bushes read as dark silhouettes; rock texture is soft (a `--tile` Midjourney
+   rock would be better); trees are still procedural placeholders; water has no real reflections.
+5. **Unused user sprites** in `Desktop/scenes/textures/`: three grass tufts, green bush, ivy, tall herb stalks,
+   bare twig, leafy branch, moss clumps.
+6. Later: weapon viewmodel in Emberwood, then a grey-box combat test with a dummy enemy.
+
+Standing preferences: the user is happy with the ground lighting (do not change it); no green or blue in the
+palette; check `EditorApplication.isPlaying` before rebuilding, the user is often in Play mode.
 
 ## Other docs
 - `docs/SCENE_BRIEF.md` — non-technical scene description for the game director.
