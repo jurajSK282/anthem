@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-// Lake: a dark glossy water disc at EmberTerrain.WaterY plus bright floating leaf patches near the shore.
+// Lake: a water disc (Anthem/Water shader) at EmberTerrain.WaterY plus bright floating leaf patches near the shore.
 public static class EmberLake
 {
     static float R(System.Random r, float a, float b) => a + (float)r.NextDouble() * (b - a);
@@ -60,7 +60,19 @@ public static class EmberLake
             wm.SetTexture("_BumpMap", AssetDatabase.LoadAssetAtPath<Texture2D>(np));
             wm.SetFloat("_BumpScale", 0.7f); wm.EnableKeyword("_NORMALMAP");
         }
-        wm.SetFloat("_Smoothness", 0.93f); wm.SetFloat("_SpecularHighlights", 1f); wm.DisableKeyword("_SPECULARHIGHLIGHTS_OFF");
+        // custom water shader; it needs the camera depth texture for the soft shoreline
+        Texture ripple = wm.GetTexture("_BumpMap");
+        wm.shader = Shader.Find("Anthem/Water");
+        wm.SetTexture("_BumpMap", ripple);
+        wm.SetColor("_Deep", new Color(0.020f, 0.015f, 0.011f));
+        wm.SetColor("_Haze", EmberAtmosphere.Fog);
+        wm.SetVector("_MoonDir", Quaternion.Euler(-27f, EmberAtmosphere.SunEuler.y - 180f, 0f) * Vector3.forward);
+        wm.SetColor("_Glint", new Color(2.4f, 1.4f, 0.55f)); wm.SetFloat("_Strength", 0.26f);
+        wm.renderQueue = 3000;
+        if (UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline is UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset urp)
+        {
+            urp.supportsCameraDepthTexture = true; EditorUtility.SetDirty(urp);
+        }
         EditorUtility.SetDirty(wm);
         Obj("Water", parent, Save(water, "EmberWater"), wm);
 

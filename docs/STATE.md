@@ -16,8 +16,9 @@ Atmosphere and look of the first area ("Emberwood"), then first-person combat. I
   - `EmberRocks` — scatters the 18 stone FBX from `Art/Stones/` (user-made in Blender): pebbles on path edges,
     medium huddles on banks, boulders/menhirs in the forest; seated on the sampled terrain surface.
   - Lake: `EmberTerrain` carves a shallow basin beside the path (`Lake`, `LakeR`, `WaterY`, `Wet()`); trees, foliage,
-    bulbs and flowers skip wet ground. `EmberLake` adds the glossy dark water disc (ripple normal map) and emissive
-    floating leaf patches. Water is ~0.7 m deep, so the player wades; it is not animated yet.
+    bulbs and flowers skip wet ground. `EmberLake` adds the water disc and emissive floating leaf patches. Water uses
+    `Anthem/Water` (haze fresnel, scrolling ripples, moon glitter, point-light glints, depth-fade shoreline; it
+    turns on the URP camera depth texture). Water is ~0.7 m deep, so the player wades.
   - `EmberFlowers` — 64 patches of small emissive orange star-shaped flowers (contrast objects) on the lake shore,
     beside the path and through the forest, one merged mesh plus a dim point light per patch. Textures from `Tools/Textures/lake_textures.py`.
   - Moon: `Anthem/GradientSky` draws a hard-edged textured moon disc (`_MoonDir`, `_MoonSize`, `_MoonColor`,
@@ -49,6 +50,10 @@ audio, UI.
    unused sprites (tall herb stalks, bare twig, leafy branch). User is happy with ground lighting.
 2. Walk test in Play mode (never verified, incl. rock colliders and frame rate).
 3. Weapon viewmodel in Emberwood, then a grey-box combat test with a dummy enemy.
+
+## Other docs
+- `docs/SCENE_BRIEF.md` — non-technical scene description for the game director.
+- `docs/CONVERSATION_SUMMARY.md` — log of the passes, decisions and bugs so far.
 
 ## Open questions
 - Final game type/scope (Gothic-style RPG vs. combat-focused) — undecided on purpose.
