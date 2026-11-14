@@ -73,7 +73,8 @@ public static class EmberMeshes
         return m;
     }
 
-    public static Mesh Tree(int seed, float height, float radius, float leafiness)
+    // moss: 1 = a few strands, 2+ = draped (used near the lake)
+    public static Mesh Tree(int seed, float height, float radius, float leafiness, float moss = 1f)
     {
         var r = new System.Random(seed);
         var b = new Buf();
@@ -96,34 +97,34 @@ public static class EmberMeshes
             for (int c = 0; c < cards; c++)
                 Card(b, r, Vector3.Lerp(bs[1], tip, R(r, 0.2f, 1.1f)) + Random3(r) * 1.8f, R(r, 1.4f, 3.2f));
             // moss and vines trailing from the branch (always at least one on the first branch)
-            int strands = i == 0 ? r.Next(1, 4) : r.NextDouble() < 0.6 ? r.Next(1, 4) : 0;
+            int strands = i == 0 ? 1 : r.NextDouble() < 0.22f * moss ? r.Next(1, 3) : 0;
             for (int s = 0; s < strands; s++)
-                Hang(b, r, Vector3.Lerp(bs[1], tip, R(r, 0f, 1f)), R(r, 3.5f, 9f));
+                Hang(b, r, Vector3.Lerp(bs[1], tip, R(r, 0f, 0.7f)), R(r, 3f, 8f));
         }
         // low bare limbs draped with long moss, so strands reach down to just above head height
-        int limbs = r.Next(2, 4);
+        int limbs = moss >= 2f ? r.Next(2, 4) : r.Next(0, 2);
         for (int i = 0; i < limbs; i++)
         {
             float ang = R(r, 0f, Mathf.PI * 2f);
             Vector3 dir = new Vector3(Mathf.Cos(ang), R(r, 0.05f, 0.35f), Mathf.Sin(ang)).normalized;
             var ls = new List<Vector3>();
             Vector3 tip = Tube(b, r, spine[r.Next(3, 5)], dir, height * R(r, 0.14f, 0.26f), radius * 0.3f, 0.03f, 4, 4, 0.25f, 0f, ls);
-            int strands = r.Next(2, 5);
+            int strands = moss >= 2f ? r.Next(2, 4) : r.Next(1, 3);
             for (int s = 0; s < strands; s++)
-                Hang(b, r, Vector3.Lerp(ls[1], tip, R(r, 0f, 1f)), R(r, 4f, 10f));
+                Hang(b, r, Vector3.Lerp(ls[1], tip, R(r, 0f, 0.7f)), R(r, 4f, 10f));
         }
         return Finish(b, $"EmberTree_{seed}");
     }
 
-    // Two crossed cards hanging straight down from p. Atlas: left half vine, right half moss strands.
+    // One card hanging straight down from p (crossed cards read as a hard "+"). Atlas: left half vine, right half moss strands.
     static void Hang(Buf b, System.Random r, Vector3 p, float len)
     {
         len = Mathf.Min(len, p.y - 1.6f);   // never down to the ground
         if (len < 1f) return;
         float u0 = r.NextDouble() < 0.4 ? 0f : 0.5f, yaw = R(r, 0f, 180f);
-        for (int c = 0; c < 2; c++)
+        for (int c = 0; c < 1; c++)
         {
-            Vector3 x = Quaternion.Euler(0f, yaw + c * 90f, 0f) * Vector3.right * len * 0.14f, down = Vector3.down * len;
+            Vector3 x = Quaternion.Euler(0f, yaw, 0f) * Vector3.right * len * 0.14f, down = Vector3.down * len;
             int i = b.v.Count;
             b.v.AddRange(new[] { p - x + down, p + x + down, p - x, p + x });
             b.uv.AddRange(new[] { new Vector2(u0, 0), new Vector2(u0 + 0.5f, 0), new Vector2(u0, 1), new Vector2(u0 + 0.5f, 1) });

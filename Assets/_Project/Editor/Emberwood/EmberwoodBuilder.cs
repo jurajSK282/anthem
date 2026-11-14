@@ -60,12 +60,17 @@ public static class EmberwoodBuilder
 
         EmberTerrain.Build(root, ground);
 
-        var trees = new Mesh[6];
+        Mesh[] trees = new Mesh[6], mossy = new Mesh[6];   // mossy = draped variants used around the lake
         for (int i = 0; i < trees.Length; i++)
+        {
             trees[i] = EmberMeshes.Tree(100 + i, 15f + i * 2.4f, 0.45f + i * 0.09f, i % 3 == 0 ? 0.5f : 1.3f);
+            mossy[i] = EmberMeshes.Tree(200 + i, 13f + i * 2.2f, 0.5f + i * 0.09f, i % 3 == 0 ? 0.5f : 1.3f, 2.5f);
+        }
         var hanging = EmberTextures.Lit("M_Hanging", EmberTextures.User("T_MJ_Hanging", true, false) ?? tCanopy, new Color(0.85f, 0.72f, 0.55f), 1f, true);
-        EmberScatter.Trees(root, trees, bark, canopy, hanging);
-        EmberFoliage.Build(root, new[] { bush, bushBright, fernA, fernB });
+        EmberScatter.Trees(root, trees, mossy, bark, canopy, hanging);
+        var bushMats = new[] { bush, bushBright, fernA, fernB };
+        EmberFoliage.Build(root, bushMats);
+        EmberLakeProps.Build(root, bushMats, bark, canopy, hanging);
         EmberRocks.Build(root, rock);
         EmberLake.Build(root);
         EmberFlowers.Build(root);

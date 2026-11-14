@@ -19,8 +19,8 @@ public static class EmberFlowers
             float cx, cz;
             if (i % 3 == 0)
             {   // lake shore
-                float a = R(r, 0f, Mathf.PI * 2f), d = EmberTerrain.LakeR * R(r, 0.9f, 1.5f);
-                cx = EmberTerrain.Lake.x + Mathf.Cos(a) * d; cz = EmberTerrain.Lake.y + Mathf.Sin(a) * d;
+                float a = R(r, 0f, Mathf.PI * 2f), d = R(r, 0.9f, 1.5f);
+                cx = EmberTerrain.Lake.x + Mathf.Cos(a) * d * EmberTerrain.LakeRx; cz = EmberTerrain.Lake.y + Mathf.Sin(a) * d * EmberTerrain.LakeRz;
             }
             else if (i % 3 == 1)
             {   // anywhere in the forest, so a patch is always in sight

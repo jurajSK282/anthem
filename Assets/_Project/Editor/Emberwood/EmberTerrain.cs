@@ -27,13 +27,15 @@ public static class EmberTerrain
     }
 
     // Lake beside the path: a shallow basin with a flattened shore. WaterY is the water surface height.
-    public const float LakeZ = 15f, LakeR = 19f;
-    public static readonly Vector2 Lake = new Vector2(PathX(LakeZ) + 24f, LakeZ);
+    // The lake is an irregular ellipse (LakeRx by LakeRz) with a small island in it.
+    public const float LakeZ = 15f, LakeRx = 24f, LakeRz = 40f;
+    public static readonly Vector2 Lake = new Vector2(PathX(LakeZ) + 34f, LakeZ);
+    public static readonly Vector2 Island = Lake + new Vector2(-6f, 10f);
     public static readonly float WaterY = Base(PathX(LakeZ), LakeZ) - 0.9f;
 
     // 0 at the lake centre, ~1 at the (wobbly) shoreline.
     public static float LakeQ(float x, float z) =>
-        new Vector2(x - Lake.x, z - Lake.y).magnitude / (LakeR * (0.8f + 0.45f * N(x, z, 0.06f, 33f)));
+        new Vector2((x - Lake.x) / LakeRx, (z - Lake.y) / LakeRz).magnitude / (0.68f + 0.5f * N(x, z, 0.03f, 33f) + 0.22f * N(x, z, 0.09f, 61f));
 
     // True only inside the lake basin. The height test alone is not enough: the south of the map lies below WaterY.
     public static bool Wet(float x, float z, float margin = 0.2f) => LakeQ(x, z) < 1.4f && Height(x, z) < WaterY + margin;
@@ -42,9 +44,11 @@ public static class EmberTerrain
     {
         float h = Base(x, z), q = LakeQ(x, z);
         if (q >= 2.2f) return h;
-        h = Mathf.Lerp(Mathf.Max(h, WaterY + 0.5f), h, Ss(1.8f, 2.2f, q));   // rim: low ground near the lake never dips under the water disc
-        h = Mathf.Lerp(WaterY + 0.6f, h, Ss(1.05f, 2f, q));
-        return Mathf.Lerp(WaterY - 0.7f, h, Ss(0.6f, 1.05f, q));
+        h = Mathf.Lerp(Mathf.Max(h, WaterY + 0.5f), h, Ss(1.9f, 2.2f, q));   // rim: low ground near the lake never dips under the water disc
+        h = Mathf.Lerp(WaterY + 0.6f, h, Ss(1.05f, 1.5f, q));
+        h = Mathf.Lerp(WaterY - 0.7f, h, Ss(0.6f, 1.05f, q));
+        float isl = new Vector2(x - Island.x, z - Island.y).magnitude / (5.5f + 2.5f * N(x, z, 0.2f, 14f));
+        return Mathf.Lerp(WaterY + 0.9f, h, Ss(0.5f, 1f, isl));
     }
 
     static float Base(float x, float z)

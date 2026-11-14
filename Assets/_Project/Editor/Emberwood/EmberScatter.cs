@@ -24,7 +24,7 @@ public static class EmberScatter
 
     static Vector3 Ground(float x, float z) => new Vector3(x, EmberTerrain.Height(x, z), z);
 
-    public static void Trees(Transform root, Mesh[] meshes, Material bark, Material leaves, Material moss)
+    public static void Trees(Transform root, Mesh[] meshes, Mesh[] mossy, Material bark, Material leaves, Material moss)
     {
         var parent = new GameObject("Trees").transform; parent.SetParent(root);
         var r = new System.Random(11);
@@ -39,7 +39,7 @@ public static class EmberScatter
             // dense wall right beside the path, thinner deep in the forest
             if (d > 14f && r.NextDouble() > 0.45) continue;
             float s = R(r, 0.8f, 1.35f);
-            Spawn("Tree", parent, meshes[r.Next(meshes.Length)], mats, Ground(x, z), R(r, 0, 360), new Vector3(s, s * R(r, 0.9f, 1.2f), s), true);
+            Spawn("Tree", parent, (EmberTerrain.LakeQ(x, z) < 1.9f ? mossy : meshes)[r.Next(meshes.Length)], mats, Ground(x, z), R(r, 0, 360), new Vector3(s, s * R(r, 0.9f, 1.2f), s), true);
             placed++;
         }
     }

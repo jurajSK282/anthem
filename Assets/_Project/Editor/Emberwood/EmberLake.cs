@@ -41,13 +41,13 @@ public static class EmberLake
         Vector3 c = new Vector3(EmberTerrain.Lake.x, EmberTerrain.WaterY, EmberTerrain.Lake.y);
 
         // water disc; UVs in world metres so the ripple map tiles every 4 m
-        const int seg = 28; float rad = EmberTerrain.LakeR * 1.4f;
+        const int seg = 28; float rx = EmberTerrain.LakeRx * 1.35f, rz = EmberTerrain.LakeRz * 1.35f;
         var v = new List<Vector3> { c }; var uv = new List<Vector2> { new Vector2(c.x, c.z) * 0.25f };
         var n = new List<Vector3> { Vector3.up }; var t = new List<int>();
         for (int i = 0; i < seg; i++)
         {
             float a = i * Mathf.PI * 2f / seg;
-            Vector3 p = c + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * rad;
+            Vector3 p = c + new Vector3(Mathf.Cos(a) * rx, 0f, Mathf.Sin(a) * rz);
             v.Add(p); uv.Add(new Vector2(p.x, p.z) * 0.25f); n.Add(Vector3.up);
             t.AddRange(new[] { 0, 1 + (i + 1) % seg, 1 + i });
         }
@@ -79,10 +79,10 @@ public static class EmberLake
         // floating leaf patches, mostly in the shallows
         var r = new System.Random(8);
         v = new List<Vector3>(); uv = new List<Vector2>(); n = new List<Vector3>(); t = new List<int>();
-        for (int i = 0; i < 400 && v.Count < 4 * 34; i++)
+        for (int i = 0; i < 900 && v.Count < 4 * 70; i++)
         {
-            float a = R(r, 0f, Mathf.PI * 2f), d = EmberTerrain.LakeR * R(r, 0.25f, 1.15f);
-            float x = c.x + Mathf.Cos(a) * d, z = c.z + Mathf.Sin(a) * d;
+            float a = R(r, 0f, Mathf.PI * 2f), d = R(r, 0.25f, 1.2f);
+            float x = c.x + Mathf.Cos(a) * d * EmberTerrain.LakeRx, z = c.z + Mathf.Sin(a) * d * EmberTerrain.LakeRz;
             if (EmberTerrain.Height(x, z) > EmberTerrain.WaterY - 0.12f) continue;
             float s = R(r, 1.2f, 3.6f);
             Quaternion q = Quaternion.Euler(0f, R(r, 0f, 360f), 0f);

@@ -46,6 +46,9 @@ through the MCP server (`Tools/Unity/umcp.py`), which is also how screenshots ar
     a soft shoreline.
 
 11. **Hanging moss.** Moss strands and vines trail from the tree branches.
+12. **Moss thinned, lake enlarged.** Moss is sparse in the forest and heavy around the lake, as single
+    cards. The lake is about twice as long, irregular, with an island carrying a bush and a low thick tree
+    on the shore.
 
 ## Decisions
 

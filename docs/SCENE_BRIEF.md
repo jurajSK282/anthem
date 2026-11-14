@@ -34,19 +34,20 @@ There is no green and no blue anywhere in the scene.
 - **Size:** 180 x 180 m of rolling forest. Fog hides everything beyond about 50 m.
 - **Path:** one sunken, winding dirt path about 160 m long, climbing gently towards the moon. Walking it takes
   about 45 seconds.
-- **Lake:** about 40 m across, on the right of the path roughly halfway along.
+- **Lake:** an irregular lake about 50 m wide and 80 m long, on the right of the path through its middle
+  stretch. A small island with a large bush sits in it; a low, thick-trunked mossy tree stands on the near shore.
 - **Start:** the player spawns at the low southern end of the path, facing along it into the light.
 
 ## What the player sees along the way
 
-1. **The start.** Tall dark trunks on both banks, moss and vines trailing from the branches overhead, the path dropping away ahead, glowing bulbs dotted along the
+1. **The start.** Tall dark trunks on both banks, a few strands of moss trailing from the branches overhead, the path dropping away ahead, glowing bulbs dotted along the
    edges, fallen leaves drifting down, fireflies near the ground.
 2. **The forest floor.** Soil with scattered leaves on the path, thicker leaf litter and bright ochre drifts
    off it. Bushes and ferns grow in patches, with a few large bushes. Stones lie along the path edges, with
    bigger rocks, slabs and standing stones deeper in.
 3. **Flower patches.** Clusters of small glowing star-shaped flowers, some beside the path and some glimpsed
    between distant trunks.
-4. **The lake.** The trees open up. Dark rippling water, patches of glowing orange leaves floating in the
+4. **The lake.** The trees open up and are heavily draped with moss here. Dark rippling water, patches of glowing orange leaves floating in the
    shallows, flowers along the shore and a broken streak of moonlight across the surface. The moon is clearly
    visible here, large and cratered, behind the far treeline.
 5. **Beyond the lake.** The path continues uphill to the edge of the map. Nothing marks the end yet.

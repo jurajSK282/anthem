@@ -8,7 +8,7 @@ public static class EmberFoliage
 {
     const float Chunk = 45f;
 
-    class Buf
+    public class Buf
     {
         public List<Vector3> v = new List<Vector3>(), n = new List<Vector3>();
         public List<Vector2> uv = new List<Vector2>();
@@ -70,7 +70,7 @@ public static class EmberFoliage
     }
 
     // Large bush: a dome of ordinary-sized leaf cards instead of one stretched card, so texel size stays the same.
-    static void Shrub(Buf b, System.Random r, Vector3 p, float h, int sub)
+    public static void Shrub(Buf b, System.Random r, Vector3 p, float h, int sub)
     {
         int cards = 9 + (int)(h * 4f);
         float rad = h * R(r, 0.55f, 0.8f);
