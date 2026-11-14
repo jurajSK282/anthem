@@ -35,7 +35,7 @@ public static class EmberScatter
         {
             float x = R(r, -lim, lim), z = R(r, -lim, lim);
             float d = EmberTerrain.PathDist(x, z);
-            if (d < 4.2f || EmberTerrain.Height(x, z) < EmberTerrain.WaterY + 0.4f) continue;
+            if (d < 4.2f || EmberTerrain.Wet(x, z, 0.4f)) continue;
             // dense wall right beside the path, thinner deep in the forest
             if (d > 14f && r.NextDouble() > 0.45) continue;
             float s = R(r, 0.8f, 1.35f);

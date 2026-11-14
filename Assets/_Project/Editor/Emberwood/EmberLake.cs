@@ -41,7 +41,7 @@ public static class EmberLake
         Vector3 c = new Vector3(EmberTerrain.Lake.x, EmberTerrain.WaterY, EmberTerrain.Lake.y);
 
         // water disc; UVs in world metres so the ripple map tiles every 4 m
-        const int seg = 28; float rad = EmberTerrain.LakeR * 1.6f;
+        const int seg = 28; float rad = EmberTerrain.LakeR * 1.4f;
         var v = new List<Vector3> { c }; var uv = new List<Vector2> { new Vector2(c.x, c.z) * 0.25f };
         var n = new List<Vector3> { Vector3.up }; var t = new List<int>();
         for (int i = 0; i < seg; i++)

@@ -35,12 +35,14 @@ public static class EmberTerrain
     public static float LakeQ(float x, float z) =>
         new Vector2(x - Lake.x, z - Lake.y).magnitude / (LakeR * (0.8f + 0.45f * N(x, z, 0.06f, 33f)));
 
-    public static bool Wet(float x, float z) => Height(x, z) < WaterY + 0.2f;
+    // True only inside the lake basin. The height test alone is not enough: the south of the map lies below WaterY.
+    public static bool Wet(float x, float z, float margin = 0.2f) => LakeQ(x, z) < 1.4f && Height(x, z) < WaterY + margin;
 
     public static float Height(float x, float z)
     {
         float h = Base(x, z), q = LakeQ(x, z);
-        if (q >= 2f) return h;
+        if (q >= 2.2f) return h;
+        h = Mathf.Lerp(Mathf.Max(h, WaterY + 0.5f), h, Ss(1.8f, 2.2f, q));   // rim: low ground near the lake never dips under the water disc
         h = Mathf.Lerp(WaterY + 0.6f, h, Ss(1.05f, 2f, q));
         return Mathf.Lerp(WaterY - 0.7f, h, Ss(0.6f, 1.05f, q));
     }
@@ -78,7 +80,7 @@ public static class EmberTerrain
         dr = drift; soil *= 1f - drift; lit *= 1f - drift;
         pa = path; soil *= 1f - path; lit *= 1f - path; dr *= 1f - path;
         soil += (lit + dr) * steep; lit *= 1f - steep; dr *= 1f - steep;
-        float wet = 1f - Ss(WaterY + 0.1f, WaterY + 0.6f, Height(x, z));   // bare mud at the waterline and below
+        float wet = LakeQ(x, z) < 1.4f ? 1f - Ss(WaterY + 0.1f, WaterY + 0.6f, Height(x, z)) : 0f;   // bare mud at the waterline and below
         w[0] = Mathf.Lerp(soil, 1f, wet); w[1] = lit * (1f - wet); w[2] = dr * (1f - wet); w[3] = pa * (1f - wet);
     }
 
