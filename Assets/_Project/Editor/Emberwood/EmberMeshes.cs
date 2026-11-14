@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-// Placeholder low-poly meshes (irregular Gothic-style trees, foliage cards, glow bulbs).
+// Placeholder low-poly meshes (irregular Gothic-style trees with leaf and moss cards).
 // Trees: submesh 0 = bark, submesh 1 = leaf cards, submesh 2 = hanging moss/vines. Replace with Blender/Tripo models later.
 public static class EmberMeshes
 {
@@ -133,14 +133,4 @@ public static class EmberMeshes
     }
 
     static Vector3 Random3(System.Random r) => new Vector3(R(r, -1, 1), R(r, -0.6f, 0.8f), R(r, -1, 1));
-
-    // Faceted glowing bulb (mushroom cap / spore pod), origin at ground.
-    public static Mesh Bulb()
-    {
-        var r = new System.Random(3);
-        var b = new Buf();
-        Tube(b, r, Vector3.zero, Vector3.up, 0.5f, 0.02f, 0.22f, 2, 6, 0f, 0f);
-        Tube(b, r, Vector3.up * 0.5f, Vector3.up, 0.3f, 0.22f, 0.02f, 2, 6, 0f, 0f);
-        return Finish(b, "EmberBulb");
-    }
 }

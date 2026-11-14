@@ -74,7 +74,8 @@ public static class EmberwoodBuilder
         EmberRocks.Build(root, rock);
         EmberLake.Build(root);
         EmberFlowers.Build(root);
-        EmberScatter.GlowBulbs(root, EmberMeshes.Bulb(), glow);
+        var stem = EmberTextures.Lit("M_MushroomStem", null, new Color(0.78f, 0.62f, 0.46f), 1f);
+        EmberMushrooms.Build(root, stem, glow);
         EmberScatter.Particles(root, pLeaf, pFly, pFog);
 
         BuildPlayer();

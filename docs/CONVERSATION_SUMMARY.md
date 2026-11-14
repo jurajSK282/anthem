@@ -49,6 +49,7 @@ through the MCP server (`Tools/Unity/umcp.py`), which is also how screenshots ar
 12. **Moss thinned, lake enlarged.** Moss is sparse in the forest and heavy around the lake, as single
     cards. The lake is about twice as long, irregular, with an island carrying a bush and a low thick tree
     on the shore.
+13. **Mushrooms.** The crystal glow bulbs became simple glowing mushrooms, with extra clusters in the forest.
 
 ## Decisions
 

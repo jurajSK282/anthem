@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Places trees, bushes, glow bulbs and atmosphere particles on the terrain.
+// Places trees, bushes and atmosphere particles on the terrain.
 public static class EmberScatter
 {
     static float R(System.Random r, float a, float b) => a + (float)r.NextDouble() * (b - a);
@@ -57,32 +57,6 @@ public static class EmberScatter
             if (EmberTerrain.PathDist(x, z) < 3f || Mathf.Abs(x) > lim) continue;
             float s = R(r, 0.45f, 1.15f);
             Spawn("Bush", parent, mesh, new[] { mat }, Ground(x, z) + Vector3.down * 0.1f, R(r, 0, 360), new Vector3(s, s * R(r, 0.7f, 1.3f), s), false);
-        }
-    }
-
-    public static void GlowBulbs(Transform root, Mesh mesh, Material mat)
-    {
-        var parent = new GameObject("GlowBulbs").transform; parent.SetParent(root);
-        var r = new System.Random(5);
-        float lim = EmberTerrain.Half - 6f;
-        for (int cluster = 0; cluster < 46; cluster++)
-        {
-            float z = R(r, -lim, lim);
-            float x = EmberTerrain.PathX(z) + R(r, 2.2f, 13f) * (r.Next(2) * 2 - 1);
-            if (EmberTerrain.Wet(x, z)) continue;
-            int n = r.Next(1, 5);
-            for (int i = 0; i < n; i++)
-            {
-                float bx = x + R(r, -1.2f, 1.2f), bz = z + R(r, -1.2f, 1.2f);
-                float s = R(r, 0.7f, 1.9f);
-                Spawn("Bulb", parent, mesh, new[] { mat }, Ground(bx, bz), R(r, 0, 360), Vector3.one * s, false);
-            }
-            var lg = new GameObject("BulbLight");
-            lg.transform.SetParent(parent);
-            lg.transform.position = Ground(x, z) + Vector3.up * 0.9f;
-            var l = lg.AddComponent<Light>();
-            l.type = LightType.Point; l.color = new Color(1f, 0.5f, 0.15f);
-            l.intensity = 9f; l.range = 7.5f; l.shadows = LightShadows.None;
         }
     }
 
