@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Contrast objects: patches of small glowing orange flowers along the path and around the lake shore.
+// Contrast objects: patches of small glowing orange star flowers on the lake shore, beside the path and through the forest.
 // One merged mesh; each patch gets a dim point light so the ground around it picks up the colour.
 public static class EmberFlowers
 {
@@ -14,13 +14,18 @@ public static class EmberFlowers
         var v = new List<Vector3>(); var uv = new List<Vector2>(); var n = new List<Vector3>(); var t = new List<int>();
         float lim = EmberTerrain.Half - 8f;
         int patches = 0;
-        for (int i = 0; i < 300 && patches < 26; i++)
+        for (int i = 0; i < 900 && patches < 64; i++)
         {
             float cx, cz;
-            if (i % 2 == 0)
+            if (i % 3 == 0)
             {   // lake shore
                 float a = R(r, 0f, Mathf.PI * 2f), d = EmberTerrain.LakeR * R(r, 0.9f, 1.5f);
                 cx = EmberTerrain.Lake.x + Mathf.Cos(a) * d; cz = EmberTerrain.Lake.y + Mathf.Sin(a) * d;
+            }
+            else if (i % 3 == 1)
+            {   // anywhere in the forest, so a patch is always in sight
+                cx = R(r, -lim, lim); cz = R(r, -lim, lim);
+                if (EmberTerrain.PathDist(cx, cz) < 6f) continue;
             }
             else
             {   // beside the path

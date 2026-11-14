@@ -48,7 +48,7 @@ for _ in range(900):
     canvas.alpha_composite(l, (int(x - l.width / 2), int(y - l.height / 2)))
 canvas.save(os.path.join(OUT, "T_MJ_LeafFloat.png"))
 
-# --- glowing flower card: thin dark stems, orange heads with a yellow heart ---
+# --- glowing flower card: thin dark stems, spiky star-shaped orange heads ---
 K = 4; S = 64 * K
 im = Image.new("RGBA", (S, S), (60, 45, 22, 0)); d = ImageDraw.Draw(im)
 for i in range(6):
@@ -57,11 +57,13 @@ for i in range(6):
     d.line(pts, fill=(70, 52, 26, 255), width=5)
     mx, my = pts[3]
     d.polygon([(mx, my), (mx + rng.choice([-1, 1]) * 26, my - 14), (mx + 4, my - 10)], fill=(84, 62, 28, 255))
-    r = rng.uniform(13, 20)
-    for k in range(5):
-        a = k * 2 * np.pi / 5 + rng.uniform(0, 1)
-        px, py = x1 + np.cos(a) * r * 0.6, top + np.sin(a) * r * 0.6
-        d.ellipse([px - r * 0.6, py - r * 0.6, px + r * 0.6, py + r * 0.6], fill=(255, int(rng.uniform(110, 160)), 30, 255))
-    d.ellipse([x1 - r * 0.4, top - r * 0.4, x1 + r * 0.4, top + r * 0.4], fill=(255, 225, 120, 255))
+    # head: one flat irregular star, no inner disc
+    r, pts_n = rng.uniform(17, 25), int(rng.integers(8, 12))
+    a0, star = rng.uniform(0, 1), []
+    for k in range(pts_n * 2):
+        rr = r * (rng.uniform(0.75, 1.35) if k % 2 == 0 else rng.uniform(0.32, 0.45))
+        ang = a0 + k * np.pi / pts_n
+        star.append((x1 + np.cos(ang) * rr, top + np.sin(ang) * rr))
+    d.polygon(star, fill=(255, int(rng.uniform(135, 175)), 45, 255))
 im.resize((64, 64), Image.LANCZOS).save(os.path.join(OUT, "T_MJ_Flower.png"))
 print("ok")
