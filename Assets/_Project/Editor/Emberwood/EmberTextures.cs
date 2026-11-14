@@ -24,6 +24,21 @@ public static class EmberTextures
         return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
     }
 
+    // User-supplied texture (Midjourney etc.) from Dir/MJ; null when missing so callers fall back to placeholders.
+    public static Texture2D User(string name, bool alpha, bool repeat)
+    {
+        string path = $"{Dir}/MJ/{name}.png";
+        var imp = AssetImporter.GetAtPath(path) as TextureImporter;
+        if (imp == null) return null;
+        imp.alphaIsTransparency = alpha;
+        imp.wrapMode = repeat ? TextureWrapMode.Repeat : TextureWrapMode.Clamp;
+        imp.mipmapEnabled = true;
+        imp.mipMapsPreserveCoverage = alpha;   // keeps distant foliage from thinning out
+        imp.alphaTestReferenceValue = 0.4f;
+        imp.SaveAndReimport();
+        return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+    }
+
     // Scattered leaf blobs. density 0..1, transparent background when alpha = true.
     public static Texture2D Leaves(string name, int size, int count, Color bg, Color a, Color b, bool alpha, int seed)
     {

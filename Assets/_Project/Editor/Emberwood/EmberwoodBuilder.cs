@@ -37,27 +37,35 @@ public static class EmberwoodBuilder
         var tCanopy = EmberTextures.Leaves("T_LeafCard", 64, 110, Color.clear, orange, red, true, 5);
         var tDot = EmberTextures.SoftDot("T_SoftDot", 32);
 
-        var mats = new[]
+        var ground = new[]
         {
-            EmberTextures.Lit("M_GroundLeaves", tLeafGround, Color.white),
-            EmberTextures.Lit("M_ForestFloor", tFloor, Color.white),
-            EmberTextures.Lit("M_Soil", tSoil, Color.white),
+            EmberTextures.User("T_L_Soil", false, true) ?? tSoil, EmberTextures.User("T_L_Litter", false, true) ?? tFloor,
+            EmberTextures.User("T_L_Drift", false, true) ?? tLeafGround, EmberTextures.User("T_L_Path", false, true) ?? tSoil,
         };
-        var bark = EmberTextures.Lit("M_Bark", tBark, Color.white);
-        var canopy = EmberTextures.Lit("M_Canopy", tCanopy, new Color(1f, 0.8f, 0.65f), 1f, true);
-        var bush = EmberTextures.Lit("M_Bush", tCanopy, new Color(0.30f, 0.14f, 0.09f), 1f, true);
+        tBark = EmberTextures.User("T_MJ_Bark", false, true) ?? tBark;
+        var tCardA = EmberTextures.User("T_MJ_LeafCardA", true, false) ?? tCanopy;
+        var tCardB = EmberTextures.User("T_MJ_LeafCardB", true, false) ?? tCanopy;
+
+        var bark = EmberTextures.Lit("M_Bark", tBark, new Color(0.32f, 0.26f, 0.22f), 0.5f);
+        var canopy = EmberTextures.Lit("M_Canopy", tCardA, new Color(0.85f, 0.50f, 0.30f), 1f, true);
+        var bush = EmberTextures.Lit("M_Bush", tCardB, new Color(0.40f, 0.25f, 0.15f), 1f, true);
+        var bushBright = EmberTextures.Lit("M_BushBright", tCardA, new Color(0.85f, 0.48f, 0.24f), 1f, true);
+        var fernA = EmberTextures.Lit("M_FernA", EmberTextures.User("T_MJ_FernA", true, false) ?? tCanopy, new Color(0.80f, 0.56f, 0.38f), 1f, true);
+        var fernB = EmberTextures.Lit("M_FernB", EmberTextures.User("T_MJ_FernB", true, false) ?? tCanopy, new Color(0.62f, 0.50f, 0.34f), 1f, true);
+        var rock = EmberTextures.Lit("M_Rock", EmberTextures.User("T_MJ_RockLight", false, true) ?? tSoil, Color.white, 1f);
         var glow = EmberTextures.Glow("M_GlowBulb", new Color(1f, 0.5f, 0.15f), new Color(6f, 2.2f, 0.4f));
         var pLeaf = EmberTextures.Particle("M_P_Leaf", tCanopy, Color.white, false);
         var pFly = EmberTextures.Particle("M_P_Firefly", tDot, Color.white, true);
         var pFog = EmberTextures.Particle("M_P_Haze", tDot, new Color(0.55f, 0.28f, 0.10f, 0.10f), false);
 
-        EmberTerrain.Build(root, mats);
+        EmberTerrain.Build(root, ground);
 
         var trees = new Mesh[6];
         for (int i = 0; i < trees.Length; i++)
-            trees[i] = EmberMeshes.Tree(100 + i, 13f + i * 2.2f, 0.45f + i * 0.09f, i % 3 == 0 ? 0.3f : 1f);
+            trees[i] = EmberMeshes.Tree(100 + i, 15f + i * 2.4f, 0.45f + i * 0.09f, i % 3 == 0 ? 0.5f : 1.3f);
         EmberScatter.Trees(root, trees, bark, canopy);
-        EmberScatter.Bushes(root, EmberMeshes.Bush(), bush);
+        EmberFoliage.Build(root, new[] { bush, bushBright, fernA, fernB });
+        EmberRocks.Build(root, rock);
         EmberScatter.GlowBulbs(root, EmberMeshes.Bulb(), glow);
         EmberScatter.Particles(root, pLeaf, pFly, pFog);
 

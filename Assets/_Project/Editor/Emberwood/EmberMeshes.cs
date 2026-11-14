@@ -79,10 +79,10 @@ public static class EmberMeshes
         var spine = new List<Vector3>();
         Vector3 lean = new Vector3(R(r, -0.12f, 0.12f), 1f, R(r, -0.12f, 0.12f)).normalized;
         Tube(b, r, Vector3.down * 1.5f, lean, height + 1.5f, radius, radius * 0.25f, 8, 6, 0.09f, 0.7f, spine);
-        int branches = r.Next(4, 8);
+        int branches = r.Next(5, 9);
         for (int i = 0; i < branches; i++)
         {
-            int at = r.Next(3, spine.Count - 1);
+            int at = r.Next(5, spine.Count - 1);   // branches only in the top ~40% of the trunk
             float ang = R(r, 0f, Mathf.PI * 2f);
             Vector3 dir = new Vector3(Mathf.Cos(ang), R(r, 0.15f, 0.8f), Mathf.Sin(ang)).normalized;
             float len = height * R(r, 0.25f, 0.5f);
@@ -91,9 +91,9 @@ public static class EmberMeshes
             Vector3 tip = Tube(b, r, spine[at], dir, len, br, 0.03f, 4, 4, 0.3f, 0f, bs);
             // twig fork
             Tube(b, r, bs[2], (dir + new Vector3(R(r, -1, 1), R(r, 0, 1), R(r, -1, 1))).normalized, len * 0.5f, br * 0.4f, 0.02f, 3, 3, 0.35f, 0f);
-            int cards = Mathf.RoundToInt(R(r, 2f, 5f) * leafiness);
+            int cards = Mathf.RoundToInt(R(r, 3f, 7f) * leafiness);
             for (int c = 0; c < cards; c++)
-                Card(b, r, Vector3.Lerp(bs[2], tip, R(r, 0.2f, 1.1f)) + Random3(r) * 1.5f, R(r, 1.8f, 3.6f));
+                Card(b, r, Vector3.Lerp(bs[1], tip, R(r, 0.2f, 1.1f)) + Random3(r) * 1.8f, R(r, 1.4f, 3.2f));
         }
         return Finish(b, $"EmberTree_{seed}");
     }
