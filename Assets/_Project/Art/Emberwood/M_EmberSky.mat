@@ -22,13 +22,20 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MoonTex:
+        m_Texture: {fileID: 2800000, guid: 054398bf788359d4780fa9c7a7d4929f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _GlowSize: 5
+    - _MoonSize: 0.09
     m_Colors:
     - _Ground: {r: 0.4, g: 0.24800001, b: 0.128, a: 0.8}
     - _Horizon: {r: 0.5, g: 0.31, b: 0.16, a: 1}
+    - _MoonColor: {r: 5.5, g: 3.6, b: 1.7, a: 1}
+    - _MoonDir: {r: 0.24559467, g: 0.45399046, b: 0.85649043, a: 0}
     - _SunDir: {r: 0.26857275, g: 0.22495106, b: 0.9366247, a: 0}
     - _SunGlow: {r: 0.95, g: 0.62, b: 0.32, a: 1}
     - _Zenith: {r: 0.2, g: 0.13, b: 0.08, a: 1}

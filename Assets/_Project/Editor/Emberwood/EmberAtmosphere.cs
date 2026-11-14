@@ -33,6 +33,11 @@ public static class EmberAtmosphere
         sky.SetColor("_Ground", Fog * 0.8f);
         sky.SetColor("_SunGlow", new Color(0.95f, 0.62f, 0.32f));
         sky.SetVector("_SunDir", -sunGo.transform.forward);
+        // visible moon: same bearing as the light, a little higher so it clears the far treeline
+        sky.SetVector("_MoonDir", Quaternion.Euler(-27f, SunEuler.y - 180f, 0f) * Vector3.forward);
+        sky.SetTexture("_MoonTex", EmberTextures.User("T_MJ_Moon", false, false));
+        sky.SetColor("_MoonColor", new Color(5.5f, 3.6f, 1.7f));
+        sky.SetFloat("_MoonSize", 0.09f);
         EditorUtility.SetDirty(sky);
 
         RenderSettings.skybox = sky;
