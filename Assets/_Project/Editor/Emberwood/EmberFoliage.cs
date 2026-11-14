@@ -112,7 +112,7 @@ public static class EmberFoliage
             for (int k = 0; k < n; k++)
             {
                 float x = cx + R(r, -1f, 1f) * spread, z = cz + R(r, -1f, 1f) * spread;
-                if (Mathf.Abs(x) > lim || Mathf.Abs(z) > lim || EmberTerrain.PathDist(x, z) < 3f) continue;
+                if (Mathf.Abs(x) > lim || Mathf.Abs(z) > lim || EmberTerrain.PathDist(x, z) < 3f || EmberTerrain.Wet(x, z)) continue;
                 float h = tall ? R(r, 1.7f, 3.3f) : R(r, 0.4f, 1.3f) * Mathf.Lerp(0.7f, 1.3f, den);
                 float w = h * R(r, 0.8f, 1.7f);
                 var key = new Vector2Int(Mathf.FloorToInt(x / Chunk), Mathf.FloorToInt(z / Chunk));

@@ -66,6 +66,8 @@ public static class EmberwoodBuilder
         EmberScatter.Trees(root, trees, bark, canopy);
         EmberFoliage.Build(root, new[] { bush, bushBright, fernA, fernB });
         EmberRocks.Build(root, rock);
+        EmberLake.Build(root);
+        EmberFlowers.Build(root);
         EmberScatter.GlowBulbs(root, EmberMeshes.Bulb(), glow);
         EmberScatter.Particles(root, pLeaf, pFly, pFog);
 
