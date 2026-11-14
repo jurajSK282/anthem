@@ -45,6 +45,8 @@ through the MCP server (`Tools/Unity/umcp.py`), which is also how screenshots ar
 10. **Water.** Custom shader: haze reflection at grazing angles, moving ripples, moon glitter, bulb glints and
     a soft shoreline.
 
+11. **Hanging moss.** Moss strands and vines trail from the tree branches.
+
 ## Decisions
 
 - Atmosphere over detail; low-poly silhouettes with small, point-filtered textures.
@@ -67,7 +69,6 @@ through the MCP server (`Tools/Unity/umcp.py`), which is also how screenshots ar
 
 ## Open items
 
-- Hanging moss or vines from the trees.
 - Enlarging the forest. Current map is 180 x 180 m; the suggestion is 360 x 360 m with a world-edge boundary
   and possibly a forking path.
 - A landmark.

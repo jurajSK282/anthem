@@ -3,14 +3,14 @@ using UnityEditor;
 using UnityEngine;
 
 // Placeholder low-poly meshes (irregular Gothic-style trees, foliage cards, glow bulbs).
-// Trees: submesh 0 = bark, submesh 1 = leaf cards. Replace with Blender/Tripo models later.
+// Trees: submesh 0 = bark, submesh 1 = leaf cards, submesh 2 = hanging moss/vines. Replace with Blender/Tripo models later.
 public static class EmberMeshes
 {
     class Buf
     {
         public List<Vector3> v = new List<Vector3>();
         public List<Vector2> uv = new List<Vector2>();
-        public List<int> bark = new List<int>(), leaf = new List<int>();
+        public List<int> bark = new List<int>(), leaf = new List<int>(), moss = new List<int>();
     }
 
     static float R(System.Random r, float a, float b) => a + (float)r.NextDouble() * (b - a);
@@ -62,8 +62,9 @@ public static class EmberMeshes
     {
         var m = new Mesh { name = name };
         m.SetVertices(b.v); m.SetUVs(0, b.uv);
-        m.subMeshCount = b.leaf.Count > 0 && b.bark.Count > 0 ? 2 : 1;
-        if (m.subMeshCount == 2) { m.SetTriangles(b.bark, 0); m.SetTriangles(b.leaf, 1); }
+        m.subMeshCount = b.leaf.Count > 0 && b.bark.Count > 0 ? (b.moss.Count > 0 ? 3 : 2) : 1;
+        if (m.subMeshCount >= 2) { m.SetTriangles(b.bark, 0); m.SetTriangles(b.leaf, 1); }
+        if (m.subMeshCount == 3) m.SetTriangles(b.moss, 2);
         else m.SetTriangles(b.bark.Count > 0 ? b.bark : b.leaf, 0);
         m.RecalculateNormals(); m.RecalculateBounds(); m.RecalculateTangents();
         string path = $"{EmberTextures.Dir}/{name}.asset";
@@ -94,8 +95,26 @@ public static class EmberMeshes
             int cards = Mathf.RoundToInt(R(r, 3f, 7f) * leafiness);
             for (int c = 0; c < cards; c++)
                 Card(b, r, Vector3.Lerp(bs[1], tip, R(r, 0.2f, 1.1f)) + Random3(r) * 1.8f, R(r, 1.4f, 3.2f));
+            // moss and vines trailing from the branch (always at least one on the first branch)
+            int strands = i == 0 ? r.Next(1, 4) : r.NextDouble() < 0.6 ? r.Next(1, 4) : 0;
+            for (int s = 0; s < strands; s++)
+                Hang(b, r, Vector3.Lerp(bs[1], tip, R(r, 0f, 1f)), R(r, 1.8f, 5.5f));
         }
         return Finish(b, $"EmberTree_{seed}");
+    }
+
+    // Two crossed cards hanging straight down from p. Atlas: left half vine, right half moss strands.
+    static void Hang(Buf b, System.Random r, Vector3 p, float len)
+    {
+        float u0 = r.NextDouble() < 0.4 ? 0f : 0.5f, yaw = R(r, 0f, 180f);
+        for (int c = 0; c < 2; c++)
+        {
+            Vector3 x = Quaternion.Euler(0f, yaw + c * 90f, 0f) * Vector3.right * len * 0.14f, down = Vector3.down * len;
+            int i = b.v.Count;
+            b.v.AddRange(new[] { p - x + down, p + x + down, p - x, p + x });
+            b.uv.AddRange(new[] { new Vector2(u0, 0), new Vector2(u0 + 0.5f, 0), new Vector2(u0, 1), new Vector2(u0 + 0.5f, 1) });
+            b.moss.AddRange(new[] { i, i + 2, i + 1, i + 1, i + 2, i + 3 });
+        }
     }
 
     static Vector3 Random3(System.Random r) => new Vector3(R(r, -1, 1), R(r, -0.6f, 0.8f), R(r, -1, 1));

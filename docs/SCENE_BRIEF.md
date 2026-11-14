@@ -39,7 +39,7 @@ There is no green and no blue anywhere in the scene.
 
 ## What the player sees along the way
 
-1. **The start.** Tall dark trunks on both banks, the path dropping away ahead, glowing bulbs dotted along the
+1. **The start.** Tall dark trunks on both banks, moss and vines trailing from the branches overhead, the path dropping away ahead, glowing bulbs dotted along the
    edges, fallen leaves drifting down, fireflies near the ground.
 2. **The forest floor.** Soil with scattered leaves on the path, thicker leaf litter and bright ochre drifts
    off it. Bushes and ferns grow in patches, with a few large bushes. Stones lie along the path edges, with
@@ -65,7 +65,6 @@ towards it. Local light comes from the glow bulbs and flower patches, which tint
 
 ## Planned next
 
-- Moss or vines hanging from the trees.
 - A larger forest (about four times the area), with a proper boundary and possibly a fork in the path.
 - A landmark to walk towards.
 

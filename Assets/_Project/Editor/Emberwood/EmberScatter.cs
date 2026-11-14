@@ -24,11 +24,11 @@ public static class EmberScatter
 
     static Vector3 Ground(float x, float z) => new Vector3(x, EmberTerrain.Height(x, z), z);
 
-    public static void Trees(Transform root, Mesh[] meshes, Material bark, Material leaves)
+    public static void Trees(Transform root, Mesh[] meshes, Material bark, Material leaves, Material moss)
     {
         var parent = new GameObject("Trees").transform; parent.SetParent(root);
         var r = new System.Random(11);
-        var mats = new[] { bark, leaves };
+        var mats = new[] { bark, leaves, moss };
         float lim = EmberTerrain.Half - 4f;
         int placed = 0;
         for (int i = 0; i < 4000 && placed < 230; i++)

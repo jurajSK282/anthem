@@ -63,7 +63,8 @@ public static class EmberwoodBuilder
         var trees = new Mesh[6];
         for (int i = 0; i < trees.Length; i++)
             trees[i] = EmberMeshes.Tree(100 + i, 15f + i * 2.4f, 0.45f + i * 0.09f, i % 3 == 0 ? 0.5f : 1.3f);
-        EmberScatter.Trees(root, trees, bark, canopy);
+        var hanging = EmberTextures.Lit("M_Hanging", EmberTextures.User("T_MJ_Hanging", true, false) ?? tCanopy, new Color(0.85f, 0.72f, 0.55f), 1f, true);
+        EmberScatter.Trees(root, trees, bark, canopy, hanging);
         EmberFoliage.Build(root, new[] { bush, bushBright, fernA, fernB });
         EmberRocks.Build(root, rock);
         EmberLake.Build(root);
