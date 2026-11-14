@@ -53,3 +53,6 @@ crashlytics-build.properties
 /Assets/Screenshots.meta
 *.blend1
 *.blend2
+
+# Blender backup meta files
+*.blend1.meta
